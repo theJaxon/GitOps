@@ -1,0 +1,5 @@
+---
+argo_repo: https://argoproj.github.io/argo-helm
+argo_git_api: https://api.github.com/repos/argoproj/argo-cd/releases/latest
+argo_cli_url: https://github.com/argoproj/argo-cd/releases/download/{{ argocd_version }}/argocd-linux-amd64
+argo_dest: /usr/local/bin/argocd

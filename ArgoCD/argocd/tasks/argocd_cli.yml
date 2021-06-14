@@ -1,0 +1,18 @@
+---
+- name: Get latest argocd tag
+  shell: curl {{ argo_git_api }} | grep tag_name | cut -d '"' -f4
+  register: argocd_latest_tag
+  tags: argo-cli
+
+- name: Override argocd_version 
+  set_fact:
+    argocd_version: "{{ argocd_latest_tag['stdout'] }}"
+  tags: argo-cli
+
+- name: Install argo CLI latest version
+  get_url:
+    url: "{{ argo_cli_url }}"
+    dest: "{{ argo_dest }}"
+    mode: '0775'
+  become: true
+  tags: argo-cli

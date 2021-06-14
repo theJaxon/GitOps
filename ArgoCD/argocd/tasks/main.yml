@@ -1,0 +1,44 @@
+---
+- name: Create argo-cd Namespace
+  community.kubernetes.k8s:
+    name: argocd
+    api_version: v1
+    kind: Namespace
+    state: present
+
+# https://github.com/argoproj/argo-helm#argo-helm-charts
+- name: Add argocd helm repository
+  community.kubernetes.helm_repository:
+    name: argo
+    repo_url: "{{ argo_repo }}"
+
+# https://github.com/argoproj/argo-helm/tree/master/charts/argo-cd#installing-the-chart
+- name: Deploy argocd latest version
+  community.kubernetes.helm:
+    name: argocd
+    chart_ref: argo/argo-cd
+    release_namespace: argocd
+    values:
+      server:
+        service:
+          type: NodePort
+    atomic: true 
+
+- name: Grab argocd password 
+  command: > 
+    kubectl get po 
+    -n argocd
+    -l app.kubernetes.io/name=argocd-server 
+    -o jsonpath='{.items[0].metadata.name}'
+  register: argo_pass
+
+- name: Display argocd username and password 
+  debug:
+    msg: | 
+      argocd login credentials:
+      username: admin
+      password: {{ argo_pass['stdout'] }}
+
+- name: Install argo CLI 
+  include_tasks: argocd_cli.yml  
+  tags: argo-cli

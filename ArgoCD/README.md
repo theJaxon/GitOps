@@ -5,13 +5,13 @@
 
 ```bash
 # Create argocd namespace
-k create ns argo-cd 
+k create ns argocd 
 
 # Deploy argocd using helm
-helm install argo-cd argo/argo-cd -n argo-cd --set server.service.type=NodePort
+helm install argocd argo/argo-cd -n argocd --set server.service.type=NodePort
 
 # Get the initial password (username is admin)
-k -n argo-cd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+k -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 
 # Installing argocd CLI
 
