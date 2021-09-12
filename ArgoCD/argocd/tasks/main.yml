@@ -22,6 +22,9 @@
       server:
         service:
           type: NodePort
+      dex:
+        enabled: false 
+      installCRDs: false
     atomic: true 
 
 - name: Grab argocd password 
