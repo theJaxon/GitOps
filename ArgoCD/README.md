@@ -8,7 +8,11 @@
 k create ns argocd 
 
 # Deploy argocd using helm
-helm install argocd argo/argo-cd -n argocd --set server.service.type=NodePort
+helm install argocd argo/argo-cd \
+--namespace argocd \
+--set server.service.type=NodePort \
+--set installCRDs=false \
+--set dex.enabled=false
 
 # Get the initial password (username is admin)
 k -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
