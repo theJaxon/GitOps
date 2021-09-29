@@ -7,6 +7,10 @@
 # Create argocd namespace
 k create ns argocd 
 
+# Add argocd helm repo 
+helm repo add argo https://argoproj.github.io/argo-helm
+helm repo update
+
 # Deploy argocd using helm
 helm install argocd argo/argo-cd \
 --namespace argocd \
