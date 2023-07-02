@@ -1,24 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
+  name: nginx-arm64
   labels:
     app: nginx-arm64
-  name: nginx-arm64
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: nginx-arm64
-  strategy: {}
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: nginx-arm64
     spec:
       containers:
       - image: arm64v8/nginx
         name: nginx
-        resources: {}
-status: {}
+        ports:
+        - containerPort: 80
