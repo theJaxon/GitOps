@@ -15,7 +15,12 @@ spec:
         app: nginx-arm64
     spec:
       containers:
+      # https://hub.docker.com/r/arm64v8/nginx/
       - image: arm64v8/nginx
         name: nginx
         ports:
         - containerPort: 80
+        lifecycle:
+          postStart:
+            exec:
+              command: ['/bin/sh', '-c', 'echo Welcome to nginx-arm64 > /usr/share/nginx/html/index.html']
